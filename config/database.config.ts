@@ -1,13 +1,12 @@
-// import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-// import { DATABASECONFIG } from '../shared/constants';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-// export const typeOrmConfig: TypeOrmModuleOptions = {
-//   type: 'postgres',
-//   host: DATABASECONFIG.HOST,
-//   port: DATABASECONFIG.PORT,
-//   username: DATABASECONFIG.USERNAME,
-//   password: DATABASECONFIG.PASSWORD,
-//   database: DATABASECONFIG.DATABASENAME,
-//   autoLoadEntities: true,
-//   synchronize: true,
-// };
+export const typeOrmConfig: TypeOrmModuleOptions = {
+    type: "postgres",
+    host: "localhost",
+    port: 5432,
+    username: "postgres",
+    password: "123",
+    database: "manager_app",
+    autoLoadEntities: true,
+    synchronize: true,
+};
