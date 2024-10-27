@@ -6,16 +6,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from '../config/database.config';
 import { PermissionEntity } from './permission/entity/permission.entity';
 import { RoleEntity } from './role/entity/role.entity';
+import { UserEntity } from './user/entity/user.entity';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       ...dataSourceOptions,
-      entities: [PermissionEntity, RoleEntity]
+      entities: [PermissionEntity, RoleEntity, UserEntity]
     }),
     RoleModule,
-    PermissionModule
+    PermissionModule,
+    UserModule
   ],
   controllers: [],
   providers: [],

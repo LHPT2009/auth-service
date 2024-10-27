@@ -7,7 +7,7 @@ export const dataSourceOptions: DataSourceOptions = {
     username: "postgres",
     password: "123",
     database: "manager_app",
-    synchronize: false,
+    synchronize: true,
     entities: [
         `dist/src/**/entity/*.{ts,js}`,
     ],
