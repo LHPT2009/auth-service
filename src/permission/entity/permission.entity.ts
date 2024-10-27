@@ -11,4 +11,7 @@ export class PermissionEntity implements PermissionInterface {
 
   @Column()
   description: string;
+
+  @Column()
+  descriptiondemo: string;
 }

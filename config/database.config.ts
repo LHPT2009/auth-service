@@ -7,11 +7,11 @@ export const dataSourceOptions: DataSourceOptions = {
     username: "postgres",
     password: "123",
     database: "manager_app",
-    synchronize: true,
+    synchronize: false,
     entities: [
-        '**/entity/*.{ts,js}',
+        `dist/src/**/entity/*.{ts,js}`,
     ],
-    migrations: ['config/migrations/*.{ts,js}'],
+    migrations: [`dist/src/migrations/*.{ts,js}`],
     migrationsTableName: "history-migrations",
     migrationsRun: true
 };
