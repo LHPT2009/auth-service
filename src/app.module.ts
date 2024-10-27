@@ -8,6 +8,7 @@ import { PermissionEntity } from './permission/entity/permission.entity';
 import { RoleEntity } from './role/entity/role.entity';
 import { UserEntity } from './user/entity/user.entity';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { UserModule } from './user/user.module';
     }),
     RoleModule,
     PermissionModule,
-    UserModule
+    UserModule,
+    AuthModule
   ],
   controllers: [],
   providers: [],
