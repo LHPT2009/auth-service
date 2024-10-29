@@ -3,10 +3,8 @@ import { UserService } from './user.service';
 import { UserEntity } from './entity/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ResponseInterceptor } from 'common/exceptions/interceptors/response.interceptor';
 
 @Controller('user')
-@UseInterceptors(ResponseInterceptor)
 export class UserController {
     constructor(private readonly userService: UserService) { }
 
