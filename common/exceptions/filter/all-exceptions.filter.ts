@@ -22,21 +22,24 @@ export class AllExceptionsFilter implements ExceptionFilter {
         const exceptionResponse =
             exception instanceof HttpException
                 ? exception.getResponse()
-                : { message: 'Internal server error' };
+                : { message: null };
 
         const error =
             typeof exceptionResponse === 'object' && exceptionResponse.hasOwnProperty('error')
                 ? (exceptionResponse as any).error
                 : exception instanceof HttpException
                     ? exception.message
-                    : 'Error';
+                    : 'Internal server error';
 
-        let message =
-            typeof exceptionResponse === 'object' && exceptionResponse.hasOwnProperty('message')
+        let message: string[];
+
+        if (status !== HttpStatus.INTERNAL_SERVER_ERROR) {
+            message = Array.isArray((exceptionResponse as any).message)
                 ? (exceptionResponse as any).message
-                : 'An unexpected error occurred';
-
-        message = Array.isArray(message) ? message : [message];
+                : [exception instanceof Error ? exception.message : 'An unexpected error occurred'];
+        } else {
+            message = undefined;
+        }
 
         const responseErrorDto = new ResponseErrorDto(status, error, message);
 
