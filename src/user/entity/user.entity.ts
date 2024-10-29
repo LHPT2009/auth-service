@@ -10,6 +10,12 @@ export class UserEntity implements UserInterface {
     @Column()
     name: string;
 
+    @Column()
+    username: string;
+
+    @Column()
+    password: string;
+
     @ManyToMany(() => RoleEntity, (role) => role.users)
     @JoinTable({ name: 'users_roles' })
     roles: RoleEntity[];

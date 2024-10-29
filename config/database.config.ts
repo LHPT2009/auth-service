@@ -9,7 +9,7 @@ export const dataSourceOptions: DataSourceOptions = {
     database: "manager_app",
     synchronize: true,
     entities: [
-        `dist/src/**/entity/*.{ts,js}`,
+        `src/**/entity/*.{ts,js}`,
     ],
     migrations: [`dist/src/migrations/*.{ts,js}`],
     migrationsTableName: "history-migrations",

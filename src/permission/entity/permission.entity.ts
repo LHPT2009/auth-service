@@ -10,9 +10,6 @@ export class PermissionEntity implements PermissionInterface {
   @Column()
   name: string;
 
-  @Column()
-  description: string;
-
   @ManyToMany(() => RoleEntity, (role) => role.permissions)
   roles: RoleEntity[];
 }

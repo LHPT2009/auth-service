@@ -3,6 +3,8 @@ import {
     ExecutionContext,
     Injectable,
     NestInterceptor,
+    HttpException,
+    HttpStatus
 } from '@nestjs/common';
 import { catchError, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -14,12 +16,28 @@ export class ResponseInterceptor implements NestInterceptor {
 
         return next.handle().pipe(
             map((data) => {
-                const reponse = new ResponseDto(200, 'Suceess!', data)
-                return reponse;
+                const ctx = context.switchToHttp();
+                const response = ctx.getResponse();
+
+                const status = response?.statusCode || 200;
+
+                const dataresponse = data ? data : null
+                return new ResponseDto(status, 'Success!', dataresponse);
             }),
-            catchError(err => {
-                const reponse = new ResponseDto(400, 'Error!', err)
-                throw reponse;
+            catchError(error => {
+                const status =
+                    error instanceof HttpException
+                        ? error.getStatus()
+                        : HttpStatus.INTERNAL_SERVER_ERROR;
+
+                const message =
+                    error instanceof HttpException
+                        ? error.getResponse()
+                        : 'An unexpected error occurred';
+
+                const response = new ResponseDto(status, 'Error!', message);
+
+                throw response;
             }),
         );
     }
