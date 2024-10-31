@@ -16,8 +16,8 @@ export class UserController {
 
     @Get(':id')
     @HttpCode(HttpStatus.OK)
-    async findOne(@Param('id') id: string): Promise<UserEntity> {
-        return this.userService.findOne(id);
+    async findUserById(@Param('id') id: string): Promise<UserEntity> {
+        return this.userService.findUserById(id);
     }
 
     @Post()

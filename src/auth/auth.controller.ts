@@ -1,5 +1,6 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -10,8 +11,14 @@ export class AuthController {
         return this.authService.login();
     }
 
+    @Post('register')
+    @HttpCode(HttpStatus.CREATED)
+    register(createUserDto: CreateUserDto): Promise<{}> {
+        return this.authService.register(createUserDto);
+    }
+
     @Post()
-    register(): Promise<{}> {
-        return this.authService.login();
+    refreshAccesstoken(): Promise<{}> {
+        return this.authService.refreshAccesstoken();
     }
 }
