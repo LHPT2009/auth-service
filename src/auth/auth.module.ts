@@ -8,7 +8,7 @@ import { UserModule } from 'src/user/user.module';
     imports: [
         JwtModule.register({
             global: true,
-            secret: 'keydemo',
+            secret: process.env.JWT_SECRET || 'keydemo',
         }),
         UserModule
     ],

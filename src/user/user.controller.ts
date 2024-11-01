@@ -1,8 +1,9 @@
-import { Controller, Get, Body, Param, Post, Patch, Delete, HttpCode, HttpStatus, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Body, Param, Post, Patch, Delete, HttpCode, HttpStatus, UseInterceptors, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserEntity } from './entity/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthGuard } from 'common/exceptions/guards/auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -10,6 +11,7 @@ export class UserController {
 
     @Get()
     @HttpCode(HttpStatus.OK)
+    @UseGuards(AuthGuard)
     findAll(): Promise<UserEntity[]> {
         return this.userService.findAll();
     }
