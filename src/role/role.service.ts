@@ -14,7 +14,7 @@ export class RoleService {
     }
 
     async findRoleById(id: string): Promise<RoleEntity> {
-        const role = await this.roleRepository.findOne({ where: { id } });
+        const role = await this.roleRepository.findOne({ where: { id }, relations: ["permissions"] });
         if (!role) {
             throw new NotFoundException(`role with ID ${id} not found`);
         }
