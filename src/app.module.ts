@@ -9,18 +9,24 @@ import { RoleEntity } from './role/entity/role.entity';
 import { UserEntity } from './user/entity/user.entity';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { MenuModule } from './menu/menu.module';
+import { MenuEntity } from './menu/entity/menu.entity';
+import { RefreshtokenEntity } from './refreshtoken/entity/refreshtoken.entity';
+import { RefreshtokenModule } from './refreshtoken/refreshtoken.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       ...dataSourceOptions,
-      entities: [PermissionEntity, RoleEntity, UserEntity]
+      entities: [PermissionEntity, RoleEntity, UserEntity, MenuEntity, RefreshtokenEntity]
     }),
     RoleModule,
     PermissionModule,
     UserModule,
-    AuthModule
+    AuthModule,
+    MenuModule,
+    RefreshtokenModule
   ],
   controllers: [],
   providers: [],

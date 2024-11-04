@@ -1,8 +1,4 @@
 export enum STATUS {
     SUCCESS = 'SUCCESS',
     CREATE = 'CREATE',
-    FAILURE = 'FAILURE',
-    PENDING = 'PENDING',
-
-    ERR_AUTH_LOGIN = 'ERR_AUTH_LOGIN',
 }
