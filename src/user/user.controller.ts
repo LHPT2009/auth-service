@@ -22,6 +22,12 @@ export class UserController {
         return this.userService.findUserById(id);
     }
 
+    @Get('permission/:id')
+    @HttpCode(HttpStatus.OK)
+    async findPermissionByUserId(@Param('id') id: string): Promise<{}> {
+        return this.userService.findPermissionByUserId(id);
+    }
+
     @Post()
     @HttpCode(HttpStatus.CREATED)
     create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {

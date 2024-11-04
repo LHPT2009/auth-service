@@ -26,6 +26,26 @@ export class UserService {
         return user;
     }
 
+    async findPermissionByUserId(id: string): Promise<{}> {
+        const data = await this.userRepository.findOne({ where: { id }, relations: ["roles", "roles.permissions"] });
+        if (!data) {
+            throw new NotFoundException(`User with ID ${id} not found`);
+        }
+        const uniquePermissions = new Map();
+
+        data.roles.forEach(role => {
+            role.permissions.forEach(permission => {
+                if (!uniquePermissions.has(permission.id)) {
+                    uniquePermissions.set(permission.id, permission);
+                }
+            });
+        });
+
+        const resultPermissions = Array.from(uniquePermissions.values());
+
+        return resultPermissions;
+    }
+
     async create(createUserDto: CreateUserDto): Promise<UserEntity> {
         const user = this.userRepository.create(createUserDto);
         return this.userRepository.save(user);
