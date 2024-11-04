@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { UserEntity } from './entity/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AssignRolesToUserDto } from './dto/assign-roles-to-user.dto';
 // import { AuthGuard } from 'common/exceptions/guards/auth.guard';
 
 @Controller('user')
@@ -32,6 +33,12 @@ export class UserController {
     @HttpCode(HttpStatus.CREATED)
     create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
         return this.userService.create(createUserDto);
+    }
+
+    @Post('assign')
+    @HttpCode(HttpStatus.OK)
+    assignRolesToUser(@Body() assignRolesToUserDto: AssignRolesToUserDto): Promise<UserEntity> {
+        return this.userService.assignRolesToUser(assignRolesToUserDto);
     }
 
     @Patch(':id')

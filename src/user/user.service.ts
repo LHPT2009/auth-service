@@ -3,10 +3,15 @@ import { UserRepository } from './user.repository';
 import { UserEntity } from './entity/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { RoleRepository } from 'src/role/role.repository';
+import { AssignRolesToUserDto } from './dto/assign-roles-to-user.dto';
 
 @Injectable()
 export class UserService {
-    constructor(private userRepository: UserRepository) { }
+    constructor(
+        private userRepository: UserRepository,
+        private roleRepository: RoleRepository
+    ) { }
 
     async findAll(): Promise<UserEntity[]> {
         const data = await this.userRepository.find();
@@ -60,5 +65,29 @@ export class UserService {
     async delete(id: string): Promise<void> {
         const user = await this.findUserById(id);
         await this.userRepository.remove(user);
+    }
+
+    async assignRolesToUser(assignRolesToUserDto: AssignRolesToUserDto): Promise<UserEntity> {
+        const user = await this.userRepository.findOne({
+            where: { id: assignRolesToUserDto.userId },
+            relations: ['roles'],
+        });
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        if (assignRolesToUserDto.roleIds.length === 0) {
+            user.roles = [];
+            await this.userRepository.save(user);
+            return user;
+        }
+
+        const roles = await this.roleRepository.findByIds(assignRolesToUserDto.roleIds);
+
+        user.roles = roles;
+
+        await this.userRepository.save(user);
+        return user;
     }
 }

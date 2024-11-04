@@ -3,10 +3,16 @@ import { RoleRepository } from './role.repository';
 import { RoleEntity } from './entity/role.entity';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
+import { PermissionRepository } from 'src/permission/permission.repository';
+import { In } from 'typeorm';
+import { AssignPermissionsToRoleDto } from './dto/assign-permission-to-role.dto';
 
 @Injectable()
 export class RoleService {
-    constructor(private roleRepository: RoleRepository) { }
+    constructor(
+        private roleRepository: RoleRepository,
+        private permissionRepository: PermissionRepository
+    ) { }
 
     async findAll(): Promise<RoleEntity[]> {
         const data = await this.roleRepository.find();
@@ -35,5 +41,30 @@ export class RoleService {
     async delete(id: string): Promise<void> {
         const role = await this.findRoleById(id);
         await this.roleRepository.remove(role);
+    }
+
+    async assignPermissionsToRole(assignPermissionsToRole: AssignPermissionsToRoleDto): Promise<RoleEntity> {
+
+        const role = await this.roleRepository.findOne({
+            where: { id: assignPermissionsToRole.roleId },
+            relations: ['permissions'],
+        });
+
+        if (!role) {
+            throw new Error('Role not found');
+        }
+
+        if (assignPermissionsToRole.permissionIds.length === 0) {
+            role.permissions = [];
+            await this.roleRepository.save(role);
+            return role;
+        }
+
+        const permissions = await this.permissionRepository.find({ where: { id: In(assignPermissionsToRole.permissionIds) } });
+
+        role.permissions = permissions;
+
+        await this.roleRepository.save(role);
+        return role;
     }
 }

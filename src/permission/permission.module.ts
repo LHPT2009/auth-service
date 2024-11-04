@@ -8,6 +8,7 @@ import { PermissionRepository } from './permission.repository';
 @Module({
   imports: [TypeOrmModule.forFeature([PermissionEntity])],
   controllers: [PermissionController],
-  providers: [PermissionService, PermissionRepository]
+  providers: [PermissionService, PermissionRepository],
+  exports: [PermissionService, PermissionRepository]
 })
 export class PermissionModule { }

@@ -3,6 +3,7 @@ import { RoleService } from './role.service';
 import { RoleEntity } from './entity/role.entity';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
+import { AssignPermissionsToRoleDto } from './dto/assign-permission-to-role.dto';
 
 @Controller('role')
 export class RoleController {
@@ -18,6 +19,12 @@ export class RoleController {
     @HttpCode(HttpStatus.OK)
     async findRoleById(@Param('id') id: string): Promise<RoleEntity> {
         return this.roleService.findRoleById(id);
+    }
+
+    @Post('assign')
+    @HttpCode(HttpStatus.OK)
+    assignPermissionsToRole(@Body() assignPermissionsToRoleDto: AssignPermissionsToRoleDto): Promise<RoleEntity> {
+        return this.roleService.assignPermissionsToRole(assignPermissionsToRoleDto);
     }
 
     @Post()
