@@ -5,7 +5,7 @@ import * as bcrypt from 'bcryptjs';
 
 @Entity('users')
 export class UserEntity implements UserInterface {
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryGeneratedColumn()
     id: string;
 
     @Column()

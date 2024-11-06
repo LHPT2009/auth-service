@@ -6,7 +6,7 @@ import { MenuEntity } from 'src/menu/entity/menu.entity';
 
 @Entity('roles')
 export class RoleEntity implements RoleInterface {
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryGeneratedColumn()
     id: string;
 
     @Column()

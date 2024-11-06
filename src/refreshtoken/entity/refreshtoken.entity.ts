@@ -3,7 +3,7 @@ import RefreshtokenInterface from '../interface/refreshtoken.interface';
 
 @Entity('refreshtokens')
 export class RefreshtokenEntity implements RefreshtokenInterface {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: string;
 
   @Column()

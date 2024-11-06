@@ -20,10 +20,16 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node --require tsconfig-paths/register ./node_modules/typeorm/cli",
     "migration:run": "npm run typeorm migration:run -- -d ./config/database.config.ts",
-    "migration:generate": "npm run typeorm -- -d ./config/database.config.ts migration:generate ./migrations/generate-file",
-    "migration:create": "npm run typeorm -- migration:create ./migrations/create-file",
+    "migration:generate": "npm run typeorm -- -d ./config/database.config.ts migration:generate ./migrations/data/generate-file",
+    "migration:create": "npm run typeorm -- migration:create ./migrations/data/create-file",
     "migration:revert": "npm run typeorm -- -d ./config/database.config.ts migration:revert",
-    "migration:show": "npm run typeorm -- migration:show -d ./config/database.config.ts"
+    "migration:show": "npm run typeorm -- migration:show -d ./config/database.config.ts",
+    
+    "seed:run": "npm run typeorm migration:run -- -d ./config/seed.config.ts",
+    "seed:generate": "npm run typeorm -- -d ./config/seed.config.ts migration:generate ./migrations/seed/generate-file",
+    "seed:create": "npm run typeorm -- migration:create ./migrations/seed/create-file",
+    "seed:revert": "npm run typeorm -- -d ./config/seed.config.ts migration:revert",
+    "seed:show": "npm run typeorm -- migration:show -d ./config/seed.config.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
