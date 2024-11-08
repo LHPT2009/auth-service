@@ -11,7 +11,6 @@ message FindAuthById {
 }
 
 message Auth {
-  int32 userId = 1;
   repeated string roles = 2;
   repeated string permissions = 3;
 }

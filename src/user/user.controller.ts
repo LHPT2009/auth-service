@@ -23,10 +23,10 @@ export class UserController {
         return this.userService.findUserById(id);
     }
 
-    @Get('permission/:id')
+    @Get('role_permission/:id')
     @HttpCode(HttpStatus.OK)
-    async findPermissionByUserId(@Param('id') id: string): Promise<{}> {
-        return this.userService.findPermissionByUserId(id);
+    async findRoleAndPermissionByUserId(@Param('id') id: string): Promise<{}> {
+        return this.userService.findRoleAndPermissionByUserId(id);
     }
 
     @Post()

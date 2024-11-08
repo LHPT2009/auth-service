@@ -31,24 +31,27 @@ export class UserService {
         return user;
     }
 
-    async findPermissionByUserId(id: string): Promise<{}> {
+    async findRoleAndPermissionByUserId(id: string): Promise<{}> {
         const data = await this.userRepository.findOne({ where: { id }, relations: ["roles", "roles.permissions"] });
         if (!data) {
             throw new NotFoundException(`User with ID ${id} not found`);
         }
-        const uniquePermissions = new Map();
+
+        const uniqueRoles = new Set<string>();
+        const uniquePermissions = new Set<string>();
 
         data.roles.forEach(role => {
+            uniqueRoles.add(role.name);
+
             role.permissions.forEach(permission => {
-                if (!uniquePermissions.has(permission.id)) {
-                    uniquePermissions.set(permission.id, permission);
-                }
+                uniquePermissions.add(permission.name);
             });
         });
 
-        const resultPermissions = Array.from(uniquePermissions.values());
+        const resultRoles = Array.from(uniqueRoles);
+        const resultPermissions = Array.from(uniquePermissions);
 
-        return resultPermissions;
+        return { roles: resultRoles, permissions: resultPermissions };
     }
 
     async create(createUserDto: CreateUserDto): Promise<UserEntity> {
