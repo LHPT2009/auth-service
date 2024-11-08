@@ -4,7 +4,11 @@ import { UserEntity } from './entity/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AssignRolesToUserDto } from './dto/assign-roles-to-user.dto';
-// import { AuthGuard } from 'common/exceptions/guards/auth.guard';
+import { AuthGuard } from 'common/exceptions/guards/auth.guard';
+import { RoleGuard } from 'common/exceptions/guards/role.guard';
+import { PermissionGuard } from 'common/exceptions/guards/permission.guard';
+import { Roles } from 'common/exceptions/guards/decorator/roles.decorator';
+import { Permissions } from 'common/exceptions/guards/decorator/permissions.decorator';
 
 @Controller('user')
 export class UserController {
@@ -12,7 +16,9 @@ export class UserController {
 
     @Get()
     @HttpCode(HttpStatus.OK)
-    // @UseGuards(AuthGuard)
+    @Roles()
+    @Permissions()
+    @UseGuards(AuthGuard, RoleGuard, PermissionGuard)
     findAll(): Promise<UserEntity[]> {
         return this.userService.findAll();
     }

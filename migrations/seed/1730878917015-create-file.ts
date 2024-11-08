@@ -25,9 +25,9 @@ export class CreateFile1730878917015 implements MigrationInterface {
 
         await queryRunner.query(`
             INSERT INTO users ("id", "name", "username", "password") VALUES 
-            (1, 'Admin', 'admin', 'admin123'), 
-            (2, 'User', 'user', 'user123')
-        `);
+            (1, 'Admin', 'admin', '$2a$12$mPPVsEweGCkSFvhaxYZUEu0oettBEg/ZcLTcc7/F2drMRBjVj.scq'), 
+            (2, 'User', 'user', '$2a$12$WGzSYcArf6cb5s1ryZKuf.VNhUmQiL0jMygPBwySR5pkntvdeyagq')
+        `);//password: username + '123'
 
         await queryRunner.query(`
             INSERT INTO users_roles ("usersId", "rolesId") VALUES 
