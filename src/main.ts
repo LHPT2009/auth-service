@@ -4,9 +4,20 @@ import { ValidationPipe } from '@nestjs/common';
 import { TransformInterceptor } from 'common/exceptions/interceptors/transform.interceptor';
 import { AllExceptionsFilter } from 'common/exceptions/filter/all-exceptions.filter';
 import { ErrorHandlingByEnvironmentInterceptor } from 'common/exceptions/interceptors/error-handling-by-environment.interceptor';
+import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.GRPC,
+    options: {
+      package: 'auth',
+      protoPath: './protos/auth.proto',
+      url: 'localhost:50051',
+    },
+  });
+
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe())
   app.useGlobalFilters(new AllExceptionsFilter());

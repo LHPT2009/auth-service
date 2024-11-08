@@ -24,7 +24,6 @@
     "migration:create": "npm run typeorm -- migration:create ./migrations/data/create-file",
     "migration:revert": "npm run typeorm -- -d ./config/database.config.ts migration:revert",
     "migration:show": "npm run typeorm -- migration:show -d ./config/database.config.ts",
-    
     "seed:run": "npm run typeorm migration:run -- -d ./config/seed.config.ts",
     "seed:generate": "npm run typeorm -- -d ./config/seed.config.ts migration:generate ./migrations/seed/generate-file",
     "seed:create": "npm run typeorm -- migration:create ./migrations/seed/create-file",
@@ -32,10 +31,13 @@
     "seed:show": "npm run typeorm -- migration:show -d ./config/seed.config.ts"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.12.2",
+    "@grpc/proto-loader": "^0.7.13",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "^10.2.0",
+    "@nestjs/microservices": "^10.4.7",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.2",
     "bcryptjs": "^2.4.3",
