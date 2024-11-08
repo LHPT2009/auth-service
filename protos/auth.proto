@@ -2,12 +2,12 @@ syntax = "proto3";
 
 package auth;
 
-service AuthsService {
-  rpc FindOne (FindAuthById) returns (Auth) {}
+service AuthService {
+  rpc GetInfoRoleAndPermissions (UserIdRequest) returns (Auth) {}
 }
 
-message FindAuthById {
-  int32 userId = 1;
+message UserIdRequest {
+  string id = 1;
 }
 
 message Auth {

@@ -1,12 +1,23 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { RefreshtokenRepository } from './refreshtoken.repository';
 import { RefreshtokenEntity } from './entity/refreshtoken.entity';
 import { CreateRefreshtokenDto } from './dto/create-refreshtoken.dto';
 import { UpdateRefreshtokenDto } from './dto/update-refreshtoken.dto';
+import { ClientGrpc } from '@nestjs/microservices';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
-export class RefreshtokenService {
-  constructor(private refreshtokenRepository: RefreshtokenRepository) { }
+export class RefreshtokenService implements OnModuleInit {
+  private userService: UserService;
+
+  constructor(
+    private refreshtokenRepository: RefreshtokenRepository,
+    @Inject('AUTH_SERVICE_GRPC') private client: ClientGrpc
+  ) { }
+
+  onModuleInit() {
+    this.userService = this.client.getService<UserService>('AuthService');
+  }
 
   async findAll(): Promise<RefreshtokenEntity[]> {
     const data = await this.refreshtokenRepository.find();

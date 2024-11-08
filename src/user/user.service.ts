@@ -5,6 +5,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { RoleRepository } from 'src/role/role.repository';
 import { AssignRolesToUserDto } from './dto/assign-roles-to-user.dto';
+import { GrpcMethod } from '@nestjs/microservices';
 
 @Injectable()
 export class UserService {
@@ -31,6 +32,7 @@ export class UserService {
         return user;
     }
 
+    @GrpcMethod('AuthService', 'GetInfoRoleAndPermissions')
     async findRoleAndPermissionByUserId(id: string): Promise<{}> {
         const data = await this.userRepository.findOne({ where: { id }, relations: ["roles", "roles.permissions"] });
         if (!data) {
