@@ -5,6 +5,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { RoleRepository } from 'src/role/role.repository';
 import { AssignRolesToUserDto } from './dto/assign-roles-to-user.dto';
+import { MESSAGE } from 'common/constants/message';
 
 @Injectable()
 export class UserService {
@@ -21,7 +22,7 @@ export class UserService {
     async findUserById(id: string): Promise<UserEntity> {
         const user = await this.userRepository.findOne({ where: { id }, relations: ["roles"] });
         if (!user) {
-            throw new NotFoundException(`User with ID ${id} not found`);
+            throw new NotFoundException(MESSAGE.ERR_USER_NOT_FOUNDER);
         }
         return user;
     }
@@ -34,7 +35,7 @@ export class UserService {
     async findRoleAndPermissionByUserId(id: string): Promise<{}> {
         const data = await this.userRepository.findOne({ where: { id }, relations: ["roles", "roles.permissions"] });
         if (!data) {
-            throw new NotFoundException(`User with ID ${id} not found`);
+            throw new NotFoundException(MESSAGE.ERR_USER_NOT_FOUNDER);
         }
 
         const uniqueRoles = new Set<string>();
@@ -77,7 +78,7 @@ export class UserService {
         });
 
         if (!user) {
-            throw new Error('User not found');
+            throw new NotFoundException(MESSAGE.ERR_USER_NOT_FOUNDER);
         }
 
         if (assignRolesToUserDto.roleIds.length === 0) {

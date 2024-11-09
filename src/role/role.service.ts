@@ -6,6 +6,7 @@ import { UpdateRoleDto } from './dto/update-role.dto';
 import { PermissionRepository } from 'src/permission/permission.repository';
 import { In } from 'typeorm';
 import { AssignPermissionsToRoleDto } from './dto/assign-permission-to-role.dto';
+import { MESSAGE } from 'common/constants/message';
 
 @Injectable()
 export class RoleService {
@@ -22,7 +23,7 @@ export class RoleService {
     async findRoleById(id: string): Promise<RoleEntity> {
         const role = await this.roleRepository.findOne({ where: { id }, relations: ["permissions"] });
         if (!role) {
-            throw new NotFoundException(`role with ID ${id} not found`);
+            throw new NotFoundException(MESSAGE.ERR_ROLE_NOT_FOUNDER);
         }
         return role;
     }
@@ -51,7 +52,7 @@ export class RoleService {
         });
 
         if (!role) {
-            throw new Error('Role not found');
+            throw new NotFoundException(MESSAGE.ERR_ROLE_NOT_FOUNDER);
         }
 
         if (assignPermissionsToRole.permissionIds.length === 0) {

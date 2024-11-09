@@ -2,9 +2,10 @@ import {
     Injectable,
     CanActivate,
     ExecutionContext,
-    BadRequestException,
+    UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { MESSAGE } from 'common/constants/message';
 
 interface UserRole {
     permissions: string[];
@@ -25,16 +26,13 @@ export class PermissionGuard implements CanActivate {
         }
 
         if (requiredPermissions.length > 0) {
-            if (!userRole.permissions) {
-                throw new BadRequestException(`Permissions are missing in AccessToken!`);
-            }
 
             const hasPermission = userRole.permissions.some(permission =>
                 requiredPermissions.includes(permission)
             );
 
             if (!hasPermission) {
-                throw new BadRequestException(`User lacks the required permissions!`);
+                throw new UnauthorizedException(MESSAGE.ERR_PERMISSION_NOT_MATCH);
             }
         }
 

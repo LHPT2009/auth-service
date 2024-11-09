@@ -2,9 +2,10 @@ import {
     Injectable,
     CanActivate,
     ExecutionContext,
-    BadRequestException,
+    UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { MESSAGE } from 'common/constants/message';
 
 interface UserRole {
     roles: string[];
@@ -25,16 +26,13 @@ export class RoleGuard implements CanActivate {
         }
 
         if (requiredRoles.length > 0) {
-            if (!userRole.roles) {
-                throw new BadRequestException(`Roles are missing in AccessToken!`);
-            }
 
             const hasRole = userRole.roles.some(role =>
                 requiredRoles.includes(role)
             );
 
             if (!hasRole) {
-                throw new BadRequestException(`User lacks the required roles!`);
+                throw new UnauthorizedException(MESSAGE.ERR_ROLE_NOT_MATCH);
             }
         }
 

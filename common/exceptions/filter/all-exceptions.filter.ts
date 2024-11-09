@@ -5,6 +5,7 @@ import {
     HttpException,
     HttpStatus,
 } from '@nestjs/common';
+import { MESSAGE } from 'common/constants/message';
 import { ResponseErrorDto } from 'common/dto/response-error.dto';
 import { Response } from 'express';
 
@@ -29,7 +30,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
                 ? (exceptionResponse as any).error
                 : exception instanceof HttpException
                     ? exception.message
-                    : 'Internal server error';
+                    : MESSAGE.INTERNAL_SERVER_ERROR;
 
         let message: string[];
 

@@ -3,6 +3,7 @@ import { PermissionRepository } from './permission.repository';
 import { PermissionEntity } from './entity/permission.entity';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
+import { MESSAGE } from 'common/constants/message';
 
 @Injectable()
 export class PermissionService {
@@ -16,7 +17,7 @@ export class PermissionService {
   async findPermissionById(id: string): Promise<PermissionEntity> {
     const permission = await this.permissionRepository.findOne({ where: { id } });
     if (!permission) {
-      throw new NotFoundException(`Permission with ID ${id} not found`);
+      throw new NotFoundException(MESSAGE.ERR_ROLE_NOT_FOUNDER);
     }
     return permission;
   }

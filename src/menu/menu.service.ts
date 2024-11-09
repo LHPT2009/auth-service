@@ -3,6 +3,7 @@ import { MenuRepository } from './menu.repository';
 import { MenuEntity } from './entity/menu.entity';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { UpdateMenuDto } from './dto/update-menu.dto';
+import { MESSAGE } from 'common/constants/message';
 
 @Injectable()
 export class MenuService {
@@ -16,7 +17,7 @@ export class MenuService {
   async findMenuById(id: string): Promise<MenuEntity> {
     const menu = await this.menuRepository.findOne({ where: { id } });
     if (!menu) {
-      throw new NotFoundException(`menu with ID ${id} not found`);
+      throw new NotFoundException(MESSAGE.ERR_MENU_NOT_FOUNDER);
     }
     return menu;
   }

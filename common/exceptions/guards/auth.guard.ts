@@ -2,10 +2,11 @@ import {
     Injectable,
     CanActivate,
     ExecutionContext,
-    BadRequestException,
     InternalServerErrorException,
+    UnauthorizedException
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { MESSAGE } from 'common/constants/message';
 import * as dotenv from 'dotenv';
 import { UserService } from 'src/user/user.service';
 
@@ -28,11 +29,15 @@ export class AuthGuard implements CanActivate {
         const getaccesstoken = request.headers['authorization'];
 
         if (!getaccesstoken || getaccesstoken === 'null') {
-            throw new BadRequestException(`AccessToken is null!!!`)
+            throw new UnauthorizedException(MESSAGE.ERR_TOKEN_REQUIRED)
         }
 
         try {
             const splitAccessToken = getaccesstoken.split(' ')[1];
+
+            if (!splitAccessToken) {
+                throw new UnauthorizedException(MESSAGE.ERR_TOKEN_INVAILD);
+            }
 
             const decode = this.jwtService.verify(splitAccessToken, {
                 secret: process.env.JWT_SECRET || 'secret',
@@ -48,12 +53,12 @@ export class AuthGuard implements CanActivate {
             return true;
         } catch (err) {
             if (err.name === 'TokenExpiredError') {
-                throw new BadRequestException(`TokenExpiredError!!!`)
+                throw new UnauthorizedException(MESSAGE.ERR_TOKEN_EXPIRED)
             }
             if (err.name === 'JsonWebTokenError') {
-                throw new BadRequestException(`JsonWebTokenError!!!`)
+                throw new UnauthorizedException(MESSAGE.ERR_TOKEN_INVAILD)
             }
-            throw new InternalServerErrorException(`InternalServerErrorException!!!`)
+            throw new InternalServerErrorException(MESSAGE.INTERNAL_SERVER_ERROR)
         }
     }
 }

@@ -1,23 +1,15 @@
-import { Inject, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { RefreshtokenRepository } from './refreshtoken.repository';
 import { RefreshtokenEntity } from './entity/refreshtoken.entity';
 import { CreateRefreshtokenDto } from './dto/create-refreshtoken.dto';
 import { UpdateRefreshtokenDto } from './dto/update-refreshtoken.dto';
-import { ClientGrpc } from '@nestjs/microservices';
-import { UserService } from 'src/user/user.service';
+import { MESSAGE } from 'common/constants/message';
 
 @Injectable()
-export class RefreshtokenService implements OnModuleInit {
-  private userService: UserService;
-
+export class RefreshtokenService {
   constructor(
     private refreshtokenRepository: RefreshtokenRepository,
-    @Inject('AUTH_SERVICE_GRPC') private client: ClientGrpc
   ) { }
-
-  onModuleInit() {
-    this.userService = this.client.getService<UserService>('AuthService');
-  }
 
   async findAll(): Promise<RefreshtokenEntity[]> {
     const data = await this.refreshtokenRepository.find();
@@ -27,7 +19,7 @@ export class RefreshtokenService implements OnModuleInit {
   async findRefreshtokenById(id: string): Promise<RefreshtokenEntity> {
     const refreshtoken = await this.refreshtokenRepository.findOne({ where: { id } });
     if (!refreshtoken) {
-      throw new NotFoundException(`Refreshtoken with ID ${id} not found`);
+      throw new NotFoundException(MESSAGE.ERR_REFRESHTOKEN_NOT_FOUNDER);
     }
     return refreshtoken;
   }
